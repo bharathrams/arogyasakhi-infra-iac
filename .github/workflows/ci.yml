@@ -1,0 +1,26 @@
+name: Terraform CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        env: [dev, staging, prod]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.5
+      - name: Format check
+        run: terraform fmt -check -recursive
+      - name: Init (backend disabled for CI validate)
+        working-directory: environments/${{ matrix.env }}
+        run: terraform init -backend=false
+      - name: Validate
+        working-directory: environments/${{ matrix.env }}
+        run: terraform validate

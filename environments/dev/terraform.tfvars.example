@@ -1,0 +1,7 @@
+environment           = "dev"
+db_instance_class     = "db.t4g.medium"
+db_multi_az           = false
+redis_node_type       = "cache.t4g.micro"
+service_desired_count = 1
+api_gateway_image     = "<ecr-repo>/api-gateway:latest"
+beneficiary_image     = "<ecr-repo>/beneficiary-service:latest"
